@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>reg</title>
+	<meta content="width=device-width,maximum-scale=1.0,minimum-scale=1.0,initial-scale=1.0,user-scalable=no" name="viewport">
+	<style type="text/css">
+		input{
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<h5>只能输入数字和英文的：</h5>
+	<input onkeyup="value=value.replace(/[\W]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" ID="Text1" NAME="Text1">
+
+	<h5>只能输入数字的：</h5>
+	<input onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" ID="Text2" NAME="Text2">
+
+	<h5>只能输入汉字的：</h5>
+	<input onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))" ID="Text4" NAME="Text4">
+
+<script type="text/javascript">
+	function isDigit(s)
+	{
+		var patrn=/^[0-9]{1,20}$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	t = isDigit('7629323292834298432');
+	//console.log(t);
+	// 零个或无限多 b
+	function demo1(s)
+	{
+		var patrn=/ab*/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo1('ab'));// true
+	console.log(demo1('ab'));//true
+	// 至少一个b
+	function demo2(s)
+	{
+		var patrn=/ab+/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo2('ab')); //true
+	console.log(demo2('a'));//false
+	// 一个或没有
+	function demo3(s)
+	{
+		var patrn=/ab?&/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo3('abbb')); //false 只能是一个或者没有
+
+	// 以两个b结尾
+	function demo4(s)
+	{
+		var patrn=/ab{2}&/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo4('abbb')); //false 三个b了
+	console.log(demo4('abb')); //true 
+	// a后面跟至少2个B
+	function demo5(s)
+	{
+		var patrn=/ab{2,}/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo5('abbba')); //true 三个b了
+	console.log(demo5('ab')); //false 至少两个
+	// 包含 hi 或者 hello
+	function demo6(s)
+	{
+		var patrn=/hi|hello/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo6('iuhi12i1')); //true 含有hi
+	console.log(demo6('hello guolei')); //true 含有hello 
+ 	// 或者
+	function demo7(s)
+	{
+		var patrn=/(b|cd)ef/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo7('bef')); //true 
+	console.log(demo7('cdef')); //true
+	// 一串的a或者b 后面接ef
+	function demo8(s)
+	{
+		var patrn=/^(b|a)*ef/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo8('abaefa')); //true
+	console.log(demo8('bbbef')); //true
+	// .代表除了回车的任意字符
+	function demo9(s)
+	{
+		var patrn=/a.[0-9]/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo9('ab9')); //true 三个bb
+	console.log(demo9('a231')); //true 至少两个
+	console.log(demo9('a2b31')); //false 至少两个
+
+	function demo10(s)
+	{
+		var patrn=/a.*[0-9]/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo10('a2b31')); //true 中间跟任意字符
+	// 任意三个字符
+	function demo11(s)
+	{
+		var patrn=/^.{3}$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo11('a2b')); //true 
+	console.log(demo11('a2by')); //false
+
+	// a到d 相当于[abcd]
+	function demo12(s)
+	{
+		var patrn=/[a-d]/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo12('c')); //true 
+	console.log(demo12('e')); //false
+
+
+	// 已一个字母开头
+	function demo13(s)
+	{
+		var patrn=/^[a-zA-z]/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo13('e1')); //true 
+	console.log(demo13('1e')); //false
+
+	// 已一个字母开头
+	function demo14(s)
+	{
+		var patrn=/^[0-9][0-9]%$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo14('10%')); //true 
+	console.log(demo14('10%1')); //false
+
+	// 已一个字母开头
+	function demo15(s)
+	{
+		var patrn=/^[0-9][0-9]%$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo15('10%')); //true 
+	console.log(demo15('10%1')); //false
+
+	// 只能输入5-20个以字母开头、可带数字、“_”、“.”的字串
+	function demo16(s)
+	{
+		var patrn=/^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo16('10%')); //true 
+	console.log(demo16('10%1')); //false
+
+	function demo17(s)
+	{
+		var patrn=/^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log(demo17('Ewsda.___qwe21')); //true 
+	console.log(demo17('12qweqeqw.._wqeqw')); //false
+	// w：用于匹配字母，数字或下划线字符 
+	function demo18(s)
+	{
+		var patrn=/^(\w){6,20}$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log('18',demo18('12jhs__')); //true 
+	console.log('18',demo18('12jsh比')); //false 中文
+	/*验证url有效性*/
+	function demo19(s)
+	{
+		var patrn=/^http[s]{0,1}:\/\/.+[com|cn]$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log('19',demo19('https://nimei.com')); //true 
+	console.log('19',demo19('httpp://hah.com')); //false
+	/*验证中文 区间啦*/
+	function demo20(s)
+	{
+		var patrn=/^[\u4E00-\u9FA5]+$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log('20',demo20('你好')); //true 
+	console.log('20',demo20('你好a')); //false
+	/*非数字*/
+	function demo21(s)
+	{
+		var patrn=/^\D+$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log('21',demo21('92032')); //true 
+	console.log('21',demo21('0')); //false
+	console.log('21',demo21('nimei'));
+	// 减号什么鬼
+	function demo22(s)
+	{
+		var patrn=/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+		if (!patrn.exec(s)) return false
+		return true
+	}
+	console.log('22',demo22('你好')); //true 
+	console.log('22',demo22('你好a')); //false
+</script>
+</body>
+</html>
